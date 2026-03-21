@@ -1,4 +1,4 @@
-site_name: Frankh | Designer
+site_name: Frankh
 
 theme:
   name: material
@@ -7,12 +7,13 @@ theme:
     - navigation.sections
     - toc.integrate
   palette:
-    scheme: default
-    primary: blue
+    scheme: slate
+    primary: black
     accent: blue
 
 nav:
   - Home: index.md
+  - Watchfaces gallery: gallery.md
 
 extra_css:
   - extra.css
