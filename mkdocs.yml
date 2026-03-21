@@ -1,4 +1,5 @@
 site_name: Frankh
+copyright: 'Copyright &copy; 2026 Frankh'
 
 theme:
   name: material
@@ -11,11 +12,18 @@ theme:
     primary: black
     accent: blue
 
+# Add this section right here:
+extra:
+  generator: false
+
+markdown_extensions:
+  - attr_list          # Allows adding CSS classes like {: .center}
+  - md_in_html         # Allows Markdown syntax inside <div> tags
+  - pymdownx.superfences # Better handling of nested blocks
+
 nav:
   - Home: index.md
   - Watchfaces gallery: gallery.md
 
 extra_css:
   - extra.css
-
-plugins: []
