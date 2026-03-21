@@ -1,0 +1,8 @@
+/* Hide the navigation sidebar + its toggle button */
+.md-sidebar--primary {
+  display: none;
+}
+
+.md-header__button[for="__drawer"] {
+  display: none;
+}
