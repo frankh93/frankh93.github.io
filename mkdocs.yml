@@ -1,6 +1,6 @@
 site_name: Frankh
 site_url: https://frankh93.github.io/
-copyright: 'Copyright &copy; 2026 Frankh'
+copyright: 'Copyright &copy; 2026 Frank Hernández'
 
 theme:
   name: material
@@ -13,14 +13,13 @@ theme:
     primary: black
     accent: blue
 
-# Add this section right here:
 extra:
   generator: false
 
 markdown_extensions:
-  - attr_list          # Allows adding CSS classes like {: .center}
-  - md_in_html         # Allows Markdown syntax inside <div> tags
-  - pymdownx.superfences # Better handling of nested blocks
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
 
 nav:
   - Home: index.md

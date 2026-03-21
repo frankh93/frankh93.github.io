@@ -1,3 +1,23 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
+<style>
+    [data-md-color-scheme] .md-typeset h1:first-of-type {
+    display: none;
+    }
+    
+    .md-content__inner {
+        padding-top: 0 !important;
+    }
+</style>
+
+<div style="margin-top: -1.4rem; margin-bottom: 0;">
+  <img src="images/banner.png" alt="FZ3 Watchfaces Banner" style="width: 100%; border-radius: 0.1rem;">
+</div>
+
 Hi there! I'm Frank _(Also known as FZ3)_
 
 * 📍 **Located** in Mexico
@@ -6,7 +26,7 @@ Hi there! I'm Frank _(Also known as FZ3)_
 * 📱 **Devices I own:** Poco X5 Pro (redwood), OnePlus Nord 5 (lexus), Amazfit Bip 6, Amazfit Active 2 (Round)
 
 ## Where to find me
-Here some **useful links** for contact and about the stuff I do
+Here some **useful links** about me and the stuff I do
 
 * [Amazfit Bip 6 Catalog | Amazfaces](https://amazfitwatchfaces.com/search/bip/authorID/852658)
 * [Amazfit Active 2 Catalog | Amazfaces](https://amazfitwatchfaces.com/search/active/authorID/852658)
