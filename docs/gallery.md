@@ -1,6 +1,7 @@
 ---
 hide:
   - navigation
+  - toc
 ---
 
 <style>
@@ -8,9 +9,11 @@ hide:
         display: none;
     }
     
-    /* Removes the extra top margin from the title */
+    .md-content__inner {
+        margin-top: 0 !important; /* tweak this value */
+    }
+
     .md-typeset h2:first-of-type {
-        margin-top: -1rem !important;
         margin-bottom: 1.2rem !important;
     }
 </style>
