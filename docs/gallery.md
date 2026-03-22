@@ -2,6 +2,21 @@
 hide:
   - navigation
 ---
+
+<style>
+    [data-md-color-scheme] .md-typeset h1:first-of-type {
+        display: none;
+    }
+    
+    /* Removes the extra top margin from the title */
+    .md-typeset h2:first-of-type {
+        margin-top: -1rem !important;
+        margin-bottom: 1.2rem !important;
+    }
+</style>
+
+## Some cool watchfaces!
+
 <div style="display: flex; flex-wrap: wrap; justify-content: center; column-gap: 40px; row-gap: 5px; text-align: center;" markdown="1">
 
 <div style="width: 150px;" markdown="1">

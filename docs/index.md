@@ -6,22 +6,36 @@ hide:
 
 <style>
     [data-md-color-scheme] .md-typeset h1:first-of-type {
-    display: none;
+        display: none;
     }
     
     .md-content__inner {
         padding-top: 0 !important;
     }
+
+    /* Edge-to-Edge Breakout Class */
+    .edge-to-edge-banner {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-top: -2rem; /* Your original top adjustment */
+        margin-bottom: 0; /* Adds some breathing room before the text */
+    }
+    
+    .edge-to-edge-banner img {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+    }
 </style>
 
-<div style="margin-top: -1.4rem; margin-bottom: 0;">
-  <img src="images/banner.png" alt="FZ3 Watchfaces Banner" style="width: 100%; border-radius: 0.1rem;">
+<div class="edge-to-edge-banner">
+  <img src="images/banner.png" alt="FZ3 Watchfaces Banner">
 </div>
 
 Hi there! I'm Frank _(Also known as FZ3)_
 
 * 📍 **Located** in Mexico
-* ⌚️ **Watchfaces designer** for Amazfit Watches
+* ⌚️ **Watchfaces designer** for Amazfit watches
 * 🎨 **Graphic designer** for The XPerience Project
 * 📱 **Devices I own:** Poco X5 Pro (redwood), OnePlus Nord 5 (lexus), Amazfit Bip 6, Amazfit Active 2 (Round)
 

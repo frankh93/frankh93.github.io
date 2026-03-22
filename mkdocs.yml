@@ -1,9 +1,11 @@
-site_name: Frankh
+site_name: Frankh | Graphics and Watchfaces Designer
 site_url: https://frankh93.github.io/
 copyright: 'Copyright &copy; 2026 Frank Hernández'
 
 theme:
   name: material
+  logo: images/logo.svg
+  favicon: images/logo.svg
   features:
     - navigation.tabs
     - navigation.sections
