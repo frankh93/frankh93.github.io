@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Watchface QR Activator</title>
+  <style>
+    :root {
+      --bg:       #1a1a1a;
+      --surface:  #242424;
+      --surface2: #2e2e2e;
+      --border:   #3a3a3a;
+      --text:     #e8e8e8;
+      --muted:    #888;
+      --green:    #4CAF50;
+      --red:      #ef5350;
+      --orange:   #ffa726;
+      --accent:   #5d5d5d;
+      --sel:      #4a90d9;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--surface);
+      padding: 18px 16px 14px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: .5px; }
+    header p  { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 14px;
+      gap: 12px;
+      max-width: 560px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .card-title {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 10px;
+    }
+
+    /* ── FILE ROWS ── */
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .file-row:last-child { margin-bottom: 0; }
+    .file-label {
+      font-size: .78rem;
+      color: var(--muted);
+      width: 110px;
+      flex-shrink: 0;
+    }
+    .file-name {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: .8rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-name.loaded { color: var(--green); border-color: #2e5c30; }
+    .file-name.error  { color: var(--red);   border-color: #5c2e2e; }
+    .pick-btn {
+      flex-shrink: 0;
+      padding: 7px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .pick-btn:active { background: var(--accent); }
+
+    /* ── DRIVE STATUS ── */
+    #statusRow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    #statusDot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+    #statusDot.ok   { background: var(--green); }
+    #statusDot.err  { background: var(--red); }
+    #statusDot.warn { background: var(--orange); }
+    #statusText { font-size: .9rem; flex: 1; }
+    #reconnectBtn {
+      font-size: .75rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: var(--orange);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: none;
+    }
+
+    /* ── WATCHFACE LIST ── */
+    .list-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .list-toolbar span { font-size: .75rem; color: var(--muted); }
+    .toolbar-btns { display: flex; gap: 6px; }
+    .icon-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: .82rem;
+      padding: 5px 9px;
+      cursor: pointer;
+    }
+    .icon-btn:active { background: var(--accent); }
+
+    #watchList {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 220px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    #watchList::-webkit-scrollbar { width: 4px; }
+    #watchList::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    #watchList li {
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: var(--surface2);
+      font-size: .9rem;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.5px solid transparent;
+      transition: background .12s, border-color .12s;
+    }
+    #watchList li:active { background: var(--accent); }
+    #watchList li.selected { border-color: var(--sel); background: #1c3a5e; }
+    #watchList li .wf-name { font-weight: 500; }
+    #watchList li .wf-meta { font-size: .72rem; color: var(--muted); }
+    .empty-msg {
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      padding: 18px 0;
+    }
+
+    /* ── DURATION PRESETS ── */
+    #presets {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    #presets label { font-size: .82rem; color: var(--muted); margin-right: 2px; }
+    .preset-btn {
+      flex: 1;
+      padding: 9px 4px;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1.5px solid transparent;
+      color: var(--text);
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: background .12s, border-color .12s;
+    }
+    .preset-btn.active { border-color: var(--sel); background: #1c3a5e; }
+    .preset-btn:active { background: var(--accent); }
+
+    /* ── ACTION BUTTONS ── */
+    #actions { display: flex; gap: 8px; }
+    .action-btn {
+      flex: 1;
+      padding: 13px 8px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: opacity .15s, filter .15s;
+    }
+    .action-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .action-btn:not(:disabled):active { filter: brightness(.85); }
+    #unlockBtn  { background: #2e6b31; color: #a5d6a7; }
+    #lockBtn    { background: #7a1a1a; color: #ef9a9a; }
+    #lockAllBtn { background: #5a1a1a; color: #ef9a9a; }
+
+    /* ── TIMER / PROGRESS ── */
+    #timerCard { display: none; }
+    #timerCard.visible { display: block; }
+    .timer-row { display: flex; align-items: center; gap: 12px; }
+    #progressWrap {
+      flex: 1;
+      background: var(--surface2);
+      border-radius: 8px;
+      height: 8px;
+      overflow: hidden;
+    }
+    #progressBar {
+      height: 100%;
+      background: var(--sel);
+      border-radius: 8px;
+      width: 0%;
+      transition: width .5s linear;
+    }
+    #timerDisplay {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      min-width: 70px;
+      text-align: right;
+    }
+    #timerStatus {
+      font-size: .88rem;
+      color: var(--orange);
+      margin-bottom: 10px;
+      min-height: 1.2em;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #333;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: .85rem;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: transform .25s ease, opacity .25s ease;
+      opacity: 0;
+      z-index: 100;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* hidden inputs */
+    #credInput, #wfInput { display: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🕐 Watchface Activator</h1>
+  <p>FZ3 · Google Drive Temporary Access</p>
+</header>
+
+<main>
+
+  <!-- FILES -->
+  <div class="card">
+    <div class="card-title">Data Files</div>
+
+    <div class="file-row">
+      <span class="file-label">credentials.json</span>
+      <div class="file-name" id="credName">Not loaded</div>
+      <button class="pick-btn" onclick="document.getElementById('credInput').click()">📂 Load</button>
+    </div>
+
+    <div class="file-row">
+      <span class="file-label">watchfaces.txt</span>
+      <div class="file-name" id="wfName">Not loaded</div>
+      <button class="pick-btn" onclick="document.getElementById('wfInput').click()">📂 Load</button>
+    </div>
+  </div>
+
+  <!-- hidden file inputs — accept= helps Android filter the picker -->
+  <input type="file" id="credInput" accept=".json,application/json" />
+  <input type="file" id="wfInput"   accept=".txt,text/plain" />
+
+  <!-- GOOGLE DRIVE STATUS -->
+  <div class="card">
+    <div class="card-title">Google Drive</div>
+    <div id="statusRow">
+      <div id="statusDot"></div>
+      <span id="statusText">Load credentials.json to connect</span>
+      <button id="reconnectBtn" onclick="connectDrive()">🔄 Connect</button>
+    </div>
+  </div>
+
+  <!-- WATCHFACE LIST -->
+  <div class="card">
+    <div class="card-title">Watchfaces</div>
+    <div class="list-toolbar">
+      <span id="selCount">0 selected</span>
+      <div class="toolbar-btns">
+        <button class="icon-btn" onclick="selectAll()">✓ All</button>
+        <button class="icon-btn" onclick="reloadList()">🔄</button>
+      </div>
+    </div>
+    <ul id="watchList">
+      <li><div class="empty-msg">Load watchfaces.txt to see list</div></li>
+    </ul>
+  </div>
+
+  <!-- DURATION PRESETS -->
+  <div class="card">
+    <div class="card-title">Duration</div>
+    <div id="presets">
+      <label>⏱</label>
+      <button class="preset-btn" data-min="1"  onclick="setDuration(1)">1m</button>
+      <button class="preset-btn" data-min="3"  onclick="setDuration(3)">3m</button>
+      <button class="preset-btn active" data-min="5" onclick="setDuration(5)">5m</button>
+      <button class="preset-btn" data-min="10" onclick="setDuration(10)">10m</button>
+      <button class="preset-btn" data-min="30" onclick="setDuration(30)">30m</button>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="card">
+    <div class="card-title">Actions</div>
+    <div id="actions">
+      <button id="unlockBtn"  class="action-btn" onclick="doUnlock()"  disabled>🔓 Unlock</button>
+      <button id="lockBtn"    class="action-btn" onclick="doLock()"    disabled>🔒 Lock</button>
+      <button id="lockAllBtn" class="action-btn" onclick="doLockAll()" disabled>🔐 Lock All</button>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="card" id="timerCard">
+    <div id="timerStatus"></div>
+    <div class="timer-row">
+      <div id="progressWrap"><div id="progressBar"></div></div>
+      <div id="timerDisplay">--:--</div>
+    </div>
+  </div>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+/* ── STATE ── */
+let accessToken   = null;
+let tokenClient   = null;
+let credentials   = null;
+let watchfaces    = {};
+let watchfaceText = null;
+let selectedNames = new Set();
+let activeWFs     = [];
+let durMinutes    = 5;
+let timerInterval = null;
+let remainingMs   = 0;
+let totalMs       = 0;
+let timerRunning  = false;
+
+const SCOPES = 'https://www.googleapis.com/auth/drive';
+
+/* ── FILE INPUTS ── */
+document.getElementById('credInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      credentials = parsed.installed || parsed.web;
+      if (!credentials) throw new Error('Unrecognized format');
+      setFileStatus('cred', true, file.name);
+      setStatus('warn', 'Credentials loaded — tap Connect', true);
+      initTokenClient();
+      toast('✅ credentials.json loaded');
+    } catch(err) {
+      setFileStatus('cred', false, 'Invalid JSON: ' + err.message);
+      setStatus('err', 'Bad credentials.json', false);
+    }
+  };
+  reader.readAsText(file);
+  // reset so same file can be re-picked
+  e.target.value = '';
+});
+
+document.getElementById('wfInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    watchfaceText = ev.target.result;
+    setFileStatus('wf', true, file.name);
+    reloadList();
+    toast('✅ watchfaces.txt loaded (' + Object.keys(watchfaces).length + ' entries)');
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+function setFileStatus(which, ok, label) {
+  const el = document.getElementById(which === 'cred' ? 'credName' : 'wfName');
+  el.textContent = label;
+  el.className   = 'file-name ' + (ok ? 'loaded' : 'error');
+}
+
+/* ── WATCHFACES.TXT ── */
+function extractFileId(s) {
+  if (s.includes('drive.google.com')) {
+    const m = s.match(/(?:id=|[ /]d\/)([a-zA-Z0-9_-]+)/);
+    if (m) return m[1];
+  }
+  return s.trim();
+}
+
+function parseWatchfaces(text) {
+  const result = {};
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    if (line.includes(' | ')) {
+      const parts = line.split(' | ');
+      if (parts.length >= 2) {
+        result[parts[0].trim()] = {
+          id:       extractFileId(parts[1].trim()),
+          lang:     parts[2]?.trim() || 'Unknown',
+          watch_id: parts[3]?.trim() || 'unknown'
+        };
+      }
+    } else if (line.includes(' - ')) {
+      const idx  = line.lastIndexOf(' - ');
+      const name = line.slice(0, idx).trim();
+      result[name] = { id: extractFileId(line.slice(idx + 3).trim()), lang: 'Italian', watch_id: 'unknown' };
+    }
+  }
+  return result;
+}
+
+function reloadList() {
+  if (!watchfaceText) return;
+  watchfaces = parseWatchfaces(watchfaceText);
+  selectedNames.clear();
+  renderList();
+  updateSelCount();
+  updateActionBtns();
+}
+
+function renderList() {
+  const ul   = document.getElementById('watchList');
+  const keys = Object.keys(watchfaces).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  ul.innerHTML = '';
+  if (!keys.length) {
+    ul.innerHTML = '<li><div class="empty-msg">No entries found in watchfaces.txt</div></li>';
+    return;
+  }
+  for (const name of keys) {
+    const d  = watchfaces[name];
+    const li = document.createElement('li');
+    if (selectedNames.has(name)) li.classList.add('selected');
+    li.innerHTML = '<span class="wf-name">' + escHtml(name) + '</span>' +
+                   '<span class="wf-meta">' + escHtml(d.lang) + ' · ' + escHtml(d.watch_id) + '</span>';
+    li.addEventListener('click', function() { toggleSelect(name, li); });
+    ul.appendChild(li);
+  }
+}
+
+function toggleSelect(name, li) {
+  if (selectedNames.has(name)) { selectedNames.delete(name); li.classList.remove('selected'); }
+  else                         { selectedNames.add(name);    li.classList.add('selected');    }
+  updateSelCount();
+  updateActionBtns();
+}
+
+function selectAll() {
+  const keys   = Object.keys(watchfaces);
+  const allSel = keys.length > 0 && keys.every(k => selectedNames.has(k));
+  if (allSel) { selectedNames.clear(); }
+  else        { keys.forEach(k => selectedNames.add(k)); }
+  renderList();
+  updateSelCount();
+  updateActionBtns();
+}
+
+function updateSelCount() {
+  document.getElementById('selCount').textContent = selectedNames.size + ' selected';
+}
+
+/* ── GOOGLE AUTH ── */
+function initTokenClient() {
+  if (!credentials) return;
+  const script = document.createElement('script');
+  script.src   = 'https://accounts.google.com/gsi/client';
+  script.onload = function() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: credentials.client_id,
+      scope:     SCOPES,
+      callback:  handleTokenResponse
+    });
+  };
+  document.head.appendChild(script);
+}
+
+function connectDrive() {
+  if (!credentials) { toast('Load credentials.json first'); return; }
+  if (!tokenClient) { toast('Auth not ready yet, try again'); return; }
+  tokenClient.requestAccessToken();
+}
+
+function handleTokenResponse(resp) {
+  if (resp.error) { setStatus('err', 'Auth error: ' + resp.error, true); return; }
+  accessToken = resp.access_token;
+  setStatus('ok', 'Connected to Google Drive', false);
+  updateActionBtns();
+  toast('✅ Google Drive connected');
+}
+
+/* ── DRIVE API ── */
+async function makePublic(fileId) {
+  const res = await fetch('https://www.googleapis.com/drive/v3/files/' + fileId + '/permissions', {
+    method:  'POST',
+    headers: { 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ type: 'anyone', role: 'reader' })
+  });
+  return res.ok;
+}
+
+async function makePrivate(fileId) {
+  const listRes = await fetch(
+    'https://www.googleapis.com/drive/v3/files/' + fileId + '/permissions?fields=permissions(id,type)',
+    { headers: { 'Authorization': 'Bearer ' + accessToken } }
+  );
+  if (!listRes.ok) return false;
+  const data = await listRes.json();
+  const perms = (data.permissions || []).filter(function(p) { return p.type === 'anyone'; });
+  for (const perm of perms) {
+    await fetch('https://www.googleapis.com/drive/v3/files/' + fileId + '/permissions/' + perm.id, {
+      method:  'DELETE',
+      headers: { 'Authorization': 'Bearer ' + accessToken }
+    });
+  }
+  return true;
+}
+
+/* ── ACTIONS ── */
+async function doUnlock() {
+  if (!accessToken)        { toast('Connect to Google Drive first'); return; }
+  if (!selectedNames.size) { toast('Select at least one watchface'); return; }
+
+  setAllBtns(false);
+  activeWFs = [];
+  let count = 0;
+
+  for (const name of selectedNames) {
+    const d = watchfaces[name];
+    if (!d) continue;
+    const ok = await makePublic(d.id);
+    if (ok) { activeWFs.push({ name: name, id: d.id }); count++; }
+  }
+
+  if (count === 0) { toast('❌ Failed to unlock any watchface'); setAllBtns(true); return; }
+
+  const label = count === 1 ? activeWFs[0].name + ' is active' : count + ' Watchfaces active';
+  setTimerStatus('✓ ' + label);
+  showTimerCard(true);
+  document.getElementById('lockBtn').disabled    = false;
+  document.getElementById('lockAllBtn').disabled = false;
+  startCountdown();
+  toast('🔓 ' + label);
+}
+
+async function doLock() {
+  if (!activeWFs.length) return;
+  stopCountdown();
+  await lockActiveWFs();
+}
+
+async function doLockAll() {
+  if (!confirm('Make ALL watchfaces private?')) return;
+  stopCountdown();
+  setTimerStatus('🔐 Locking all…');
+  for (const d of Object.values(watchfaces)) await makePrivate(d.id);
+  activeWFs = [];
+  setTimerStatus('🔐 All Locked');
+  setTimeout(function() { showTimerCard(false); }, 2000);
+  resetActionBtns();
+  toast('🔐 All watchfaces locked');
+}
+
+async function lockActiveWFs() {
+  const count = activeWFs.length;
+  for (const wf of activeWFs) await makePrivate(wf.id);
+  const label = count === 1 ? activeWFs[0].name + ' deactivated' : count + ' Watchfaces deactivated';
+  setTimerStatus('🔒 ' + label);
+  activeWFs = [];
+  setTimeout(function() { showTimerCard(false); }, 2000);
+  resetActionBtns();
+  toast('🔒 ' + label);
+}
+
+/* ── TIMER ── */
+function setDuration(min) {
+  durMinutes = min;
+  document.querySelectorAll('.preset-btn').forEach(function(b) {
+    b.classList.toggle('active', parseInt(b.dataset.min) === min);
+  });
+  if (timerRunning) {
+    remainingMs += min * 60 * 1000;
+    totalMs     += min * 60 * 1000;
+    toast('+' + min + 'm added');
+  }
+}
+
+function startCountdown() {
+  remainingMs  = durMinutes * 60 * 1000;
+  totalMs      = remainingMs;
+  timerRunning = true;
+  updateTimerDisplay();
+  timerInterval = setInterval(tickTimer, 1000);
+}
+
+function tickTimer() {
+  remainingMs -= 1000;
+  if (remainingMs <= 0) {
+    remainingMs = 0;
+    updateTimerDisplay();
+    stopCountdown();
+    lockActiveWFs();
+    return;
+  }
+  updateTimerDisplay();
+}
+
+function stopCountdown() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerRunning  = false;
+}
+
+function updateTimerDisplay() {
+  const s   = Math.ceil(remainingMs / 1000);
+  const m   = Math.floor(s / 60);
+  const sec = s % 60;
+  document.getElementById('timerDisplay').textContent =
+    String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+  const pct = totalMs > 0 ? ((totalMs - remainingMs) / totalMs * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+/* ── UI HELPERS ── */
+function showTimerCard(show) {
+  document.getElementById('timerCard').classList.toggle('visible', show);
+  if (!show) {
+    document.getElementById('timerDisplay').textContent = '--:--';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('timerStatus').textContent  = '';
+  }
+}
+function setTimerStatus(msg) { document.getElementById('timerStatus').textContent = msg; }
+
+function setStatus(type, msg, showBtn) {
+  document.getElementById('statusDot').className  = type;
+  document.getElementById('statusText').textContent = msg;
+  document.getElementById('reconnectBtn').style.display = showBtn ? 'inline-block' : 'none';
+}
+
+function updateActionBtns() {
+  const hasDrive = !!accessToken;
+  const hasSel   = selectedNames.size > 0;
+  const hasWFs   = Object.keys(watchfaces).length > 0;
+  document.getElementById('unlockBtn').disabled  = !(hasDrive && hasSel);
+  document.getElementById('lockBtn').disabled    = !(hasDrive && activeWFs.length > 0);
+  document.getElementById('lockAllBtn').disabled = !(hasDrive && hasWFs);
+}
+
+function resetActionBtns() {
+  document.getElementById('unlockBtn').disabled  = !(accessToken && selectedNames.size > 0);
+  document.getElementById('lockBtn').disabled    = true;
+  document.getElementById('lockAllBtn').disabled = !(accessToken && Object.keys(watchfaces).length > 0);
+}
+
+function setAllBtns(enabled) {
+  ['unlockBtn','lockBtn','lockAllBtn'].forEach(function(id) {
+    document.getElementById(id).disabled = !enabled;
+  });
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function() { el.classList.remove('show'); }, 2800);
+}
+</script>
+</body>
+</html>
