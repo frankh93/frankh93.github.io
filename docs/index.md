@@ -37,7 +37,7 @@ Hi there! I'm Frank _(Also known as FZ3)_
 * 📍 **Located** in Mexico
 * ⌚️ **Watchfaces designer** for Amazfit watches
 * 🎨 **Graphic designer** for The XPerience Project
-* 📱 **Devices I own:** Poco X5 Pro (redwood), OnePlus Nord 5 (lexus), Amazfit Bip 6, Amazfit Active 2 (Round)
+* 📱 **Devices I own:** Poco X5 Pro (redwood), OnePlus Nord 5 (lexus), Amazfit Bip 6, Amazfit Active Max
 
 ## Where to find me
 Here some **useful links** about me and the stuff I do
