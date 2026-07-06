@@ -1,0 +1,52 @@
+[
+    {
+        "title": "Concentric",
+        "category": "bip6",
+        "image": "https://i.postimg.cc/8kLfZjqX/CONCENTRIC-MODULAR-FZ3-PREVIEW.gif",
+        "tagline": "Minimal circular dial focusing on clean tracking.",
+        "amazfacesLink": "",
+        "premiumLink": "https://buymeacoffee.com/frankh93/e/543919",
+        "isFree": false,
+        "features": ["Smooth progress tracking loops", "Configurable data metrics", "Optimized AOD"]
+    },
+    {
+        "title": "Ultra Bip 6",
+        "category": "bip6",
+        "image": "https://i.postimg.cc/7YvLBfL3/ULTRA-BIP-6-PREVIEW.gif",
+        "tagline": "Minimal circular dial focusing on clean tracking.",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/44251",
+        "premiumLink": "",
+        "isFree": true,
+        "features": ["Smooth progress tracking loops", "Configurable data metrics", "Optimized AOD"]
+    },
+    {
+        "title": "Zenith (Core, Alternative, Minimal)",
+        "category": "bip6",
+        "image": "https://i.postimg.cc/RZZHcNRs/ZENITH-FZ3-PREVIEW.gif",
+        "tagline": "Minimal circular dial focusing on clean tracking.",
+        "amazfacesLink": "",
+        "premiumLink": "https://buymeacoffee.com/frankh93/extras",
+        "isFree": false,
+        "features": ["Smooth progress tracking loops", "Configurable data metrics", "Optimized AOD"]
+    },
+    {
+        "title": "ChronoSport Max",
+        "category": "activemax",
+        "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
+        "tagline": "Classic analog watchface with a detailed dial.",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43981",
+        "premiumLink": "",
+        "isFree": true,
+        "features": ["Distinctive pixel dot typography", "20+ Custom color accents"]
+    },
+    {
+        "title": "ChronoSport",
+        "category": "bipmax",
+        "image": "https://i.postimg.cc/hv3Zf6XC/CHRONOSPORT-FZ3-PREVIEW.gif",
+        "tagline": "Classic analog watchface with a detailed dial.",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45288",
+        "premiumLink": "",
+        "isFree": true,
+        "features": ["Distinctive pixel dot typography", "20+ Custom color accents"]
+    }
+]

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FZ3 Watchfaces Designer</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="logo.svg" alt="Frankh Logo" class="logo-icon">
+            </a>
+            <nav>
+                <a href="#catalog">Watch Faces</a>
+                <a href="#about">About Me</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Amazfit Watchfaces Designer</h1>
+        <p>Functional, aesthetic UI layouts blending deep data metrics with minimal digital design.</p>
+        <div class="hero-buttons">
+            <a href="#catalog" class="btn primary"><i class="fa-solid fa-palette"></i> View My Work</a>
+            <a href="https://buymeacoffee.com/frankh93" target="_blank" class="btn bmac"><i class="fa-solid fa-coffee"></i> Buy Me a Coffee</a>
+        </div>
+    </section>
+
+    <section id="catalog" class="catalog-section">
+        <h2>My Watch Faces</h2>
+        
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="bip6">Bip 6</button>
+            <button class="filter-btn" data-filter="activemax">Active Max</button>
+            <button class="filter-btn" data-filter="active2round">Active 2 Round</button>
+            <button class="filter-btn" data-filter="bipmax">Bip Max</button>
+        </div>
+
+        <div class="watchface-grid" id="watchface-grid"></div>
+
+        <div class="pagination" id="pagination-controls"></div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <h2>About Me</h2>
+            <p><font size="4"><b>Hello there, I'm Frank!</b></font>
+            <br>
+            A developer and designer located in Mexico. I build things for digital screens—mostly watchfaces, but I'm also into graphic design and banners. I enjoy the contrast between building ultra-minimalist designs and features-heavy, fully customizable interfaces.</p>
+            <div class="social-links">
+                <a href="https://t.me/frankh93" target="_blank"><i class="fa-brands fa-telegram"></i> Direct Message</a>
+                <a href="https://t.me/FZ3WatchfacesCommunity" target="_blank"><i class="fa-brands fa-telegram"></i> My Community</a>
+                <a href="https://reddit.com/u/fran93h" target="_blank"><i class="fa-brands fa-reddit"></i> Reddit</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Frankh. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
