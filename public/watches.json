@@ -1,0 +1,7 @@
+[
+  { "id": "all", "name": "All" },
+  { "id": "amazfit-bip6", "name": "Bip 6" },
+  { "id": "amazfit-activemax", "name": "Active Max" },
+  { "id": "amazfit-active2round", "name": "Active 2 Round" },
+  { "id": "amazfit-bipmax", "name": "Bip Max" }
+]

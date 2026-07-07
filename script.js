@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     let watchfaceData = []; 
+    let categoriesData = [];
 
     // --- PAGINATION CONFIGURATION ---
     const itemsPerPage = 6;
@@ -8,15 +9,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gridContainer = document.getElementById("watchface-grid");
     const paginationContainer = document.getElementById("pagination-controls");
-    const filterButtons = document.querySelectorAll(".filter-btn");
-	
-	fetch('./watchfaces.json')
-        .then(response => response.json())
-        .then(data => {
-            watchfaceData = data; 
-            renderApp();          
-        })
-        .catch(error => console.error('Error loading watchfaces:', error));
+    const filterBar = document.querySelector(".filter-bar");
+
+    // --- FETCH BOTH JSON FILES ---
+    Promise.all([
+        fetch('./watches.json').then(res => res.json()),
+        fetch('./watchfaces.json').then(res => res.json())
+    ])
+    .then(([categories, watchfaces]) => {
+        categoriesData = categories;
+        watchfaceData = watchfaces; 
+        
+        renderFilters(); // Draw the buttons first
+        renderApp();     // Then draw the watchfaces     
+    })
+    .catch(error => console.error('Error loading data:', error));
+
+    // --- RENDER FILTER BUTTONS ---
+    function renderFilters() {
+        filterBar.innerHTML = categoriesData.map(cat => 
+            `<button class="filter-btn ${cat.id === currentCategory ? 'active' : ''}" data-filter="${cat.id}">${cat.name}</button>`
+        ).join('');
+
+        // Attach click events to the newly created buttons
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                
+                currentCategory = button.getAttribute("data-filter");
+                currentPage = 1; 
+                renderApp();
+            });
+        });
+    }
 
     // --- CORE LOGIC ---
     function renderApp() {
@@ -86,18 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- EVENT LISTENERS ---
     
-    // Filters
-    filterButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            filterButtons.forEach(btn => btn.classList.remove("active"));
-            button.classList.add("active");
-            
-            currentCategory = button.getAttribute("data-filter");
-            currentPage = 1; 
-            renderApp();
-        });
-    });
-
     // Expandable Drawers (Clickable Text & Overlay Dismiss)
     gridContainer.addEventListener("click", (e) => {
         

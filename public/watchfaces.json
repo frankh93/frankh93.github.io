@@ -1,7 +1,7 @@
 [
     {
         "title": "Concentric",
-        "category": "bip6",
+        "category": "amazfit-bip6",
         "image": "https://i.postimg.cc/8kLfZjqX/CONCENTRIC-MODULAR-FZ3-PREVIEW.gif",
         "tagline": "Minimal circular dial focusing on clean tracking.",
         "amazfacesLink": "",
@@ -15,7 +15,7 @@
     },
     {
         "title": "Ultra Bip 6",
-        "category": "bip6",
+        "category": "amazfit-bip6",
         "image": "https://i.postimg.cc/7YvLBfL3/ULTRA-BIP-6-PREVIEW.gif",
         "tagline": "Minimal circular dial focusing on clean tracking.",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/44251",
@@ -29,7 +29,7 @@
     },
     {
         "title": "Zenith (Core, Alternative, Minimal)",
-        "category": "bip6",
+        "category": "amazfit-bip6",
         "image": "https://i.postimg.cc/RZZHcNRs/ZENITH-FZ3-PREVIEW.gif",
         "tagline": "Minimal circular dial focusing on clean tracking.",
         "amazfacesLink": "",
@@ -43,7 +43,7 @@
     },
     {
         "title": "ChronoSport Max",
-        "category": "activemax",
+        "category": "amazfit-activemax",
         "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
         "tagline": "Classic analog watchface with a detailed dial.",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43981",
@@ -56,7 +56,7 @@
     },
     {
         "title": "ChronoSport",
-        "category": "bipmax",
+        "category": "amazfit-bipmax",
         "image": "https://i.postimg.cc/hv3Zf6XC/CHRONOSPORT-FZ3-PREVIEW.gif",
         "tagline": "Classic analog watchface with a detailed dial.",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45288",
@@ -69,7 +69,7 @@
     },
     {
         "title": "Dotted Clock",
-        "category": "bip6",
+        "category": "amazfit-bip6",
         "image": "https://i.postimg.cc/C5nmycM6/DOTTEDCLOCK.gif",
         "tagline": "Minimal nothing-styled watchface",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
