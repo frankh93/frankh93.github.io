@@ -7,7 +7,11 @@
         "amazfacesLink": "",
         "premiumLink": "https://buymeacoffee.com/frankh93/e/543919",
         "isFree": false,
-        "features": ["Smooth progress tracking loops", "Configurable data metrics", "Optimized AOD"]
+        "features": [
+            "Smooth progress tracking loops",
+            "Configurable data metrics",
+            "Optimized AOD"
+        ]
     },
     {
         "title": "Ultra Bip 6",
@@ -17,7 +21,11 @@
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/44251",
         "premiumLink": "",
         "isFree": true,
-        "features": ["Smooth progress tracking loops", "Configurable data metrics", "Optimized AOD"]
+        "features": [
+            "Smooth progress tracking loops",
+            "Configurable data metrics",
+            "Optimized AOD"
+        ]
     },
     {
         "title": "Zenith (Core, Alternative, Minimal)",
@@ -27,7 +35,11 @@
         "amazfacesLink": "",
         "premiumLink": "https://buymeacoffee.com/frankh93/extras",
         "isFree": false,
-        "features": ["Smooth progress tracking loops", "Configurable data metrics", "Optimized AOD"]
+        "features": [
+            "Smooth progress tracking loops",
+            "Configurable data metrics",
+            "Optimized AOD"
+        ]
     },
     {
         "title": "ChronoSport Max",
@@ -37,7 +49,10 @@
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43981",
         "premiumLink": "",
         "isFree": true,
-        "features": ["Distinctive pixel dot typography", "20+ Custom color accents"]
+        "features": [
+            "Distinctive pixel dot typography",
+            "20+ Custom color accents"
+        ]
     },
     {
         "title": "ChronoSport",
@@ -47,6 +62,23 @@
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45288",
         "premiumLink": "",
         "isFree": true,
-        "features": ["Distinctive pixel dot typography", "20+ Custom color accents"]
+        "features": [
+            "Distinctive pixel dot typography",
+            "20+ Custom color accents"
+        ]
+    },
+    {
+        "title": "Dotted Clock",
+        "category": "bip6",
+        "image": "https://i.postimg.cc/C5nmycM6/DOTTEDCLOCK.gif",
+        "tagline": "Minimal nothing-styled watchface",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
+        "premiumLink": "",
+        "isFree": true,
+        "features": [
+            "Minimal",
+            "Many color styles",
+            "Dynamic AOD"
+        ]
     }
 ]
