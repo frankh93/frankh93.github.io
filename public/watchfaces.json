@@ -42,6 +42,20 @@
         ]
     },
     {
+        "title": "Dotted Clock",
+        "category": "amazfit-bip6",
+        "image": "https://i.postimg.cc/C5nmycM6/DOTTEDCLOCK.gif",
+        "tagline": "Retro dot-matrix layout delivering clear and precise daily stats.",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
+        "premiumLink": "",
+        "isFree": true,
+        "features": [
+            "Minimal",
+            "Many color styles",
+            "Dynamic AOD"
+        ]
+    },
+    {
         "title": "ChronoSport Max",
         "category": "amazfit-activemax",
         "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
@@ -70,17 +84,17 @@
         ]
     },
     {
-        "title": "Dotted Clock",
-        "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/C5nmycM6/DOTTEDCLOCK.gif",
-        "tagline": "Retro dot-matrix layout delivering clear and precise daily stats.",
-        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
+        "title": "ChronoSport Max",
+        "category": "amazfit-active2round",
+        "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
+        "tagline": "Elegant analog watchface tracking dynamic daily cycles.",
+        "amazfacesLink": "https://amazfitwatchfaces.com/active/view/2524",
         "premiumLink": "",
         "isFree": true,
         "features": [
-            "Minimal",
-            "Many color styles",
-            "Dynamic AOD"
+            "Simple modern design",
+            "Well-looking AOD",
+            "Useful info on display"
         ]
     }
 ]
