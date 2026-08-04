@@ -1,11 +1,11 @@
 :root {
-    --bg-dark: #121214;
-    --bg-card: #1a1a1e;
+    --bg-dark: #09090b; /* Deeper, high-contrast dark */
+    --bg-card: #121214;
     --text-main: #f0f0f5;
-    --text-muted: #a0a0ab;
-    --accent: #00b4d8;
-    --accent-hover: #0096c7;
-    --border-color: #2a2a30;
+    --text-muted: #8b8b99;
+    --accent: #9fb3c8; /* Desaturated pastel blue */
+    --accent-hover: #b4c5d6;
+    --border-color: rgba(255, 255, 255, 0.04); /* Ultra-low glare border */
 }
 
 * {
@@ -129,13 +129,14 @@ nav a:hover {
 }
 
 .filter-btn {
-    background-color: var(--bg-card);
+    background-color: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-muted);
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 8px 20px;
+    border-radius: 50px; /* Pill shape */
     cursor: pointer;
     font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .filter-btn.active, .filter-btn:hover {
@@ -155,19 +156,19 @@ nav a:hover {
 .wf-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 24px; /* Softer, rounder corners */
     overflow: hidden;
-    
-    /* ADDED: 'background-color 0.2s' so the color fade is smooth */
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-    
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.2s;
     animation: fadeIn 0.35s ease-out forwards;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
 .wf-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6); /* Deeper shadow for pop */
+    background-color: #16161a;
 }
 
 /* Base container for the image */
@@ -232,19 +233,22 @@ nav a:hover {
 }
 
 .card-content {
-    padding: 20px;
-    transition: background-color 0.2s; /* Smooth transition for the hover effect */
+    padding: 0 20px 24px 20px;
+    text-align: center; /* Centered alignment for cleaner look */
+}
+
+.card-content h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 6px;
 }
 
 .tagline {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
-    margin: 8px 0 12px;
-    
-    /* Reserves exactly 2 lines of vertical space */
-    min-height: 48px; 
-    
-    /* Truncates any text that overflows past 2 lines */
+    margin: 0 auto;
+    max-width: 95%;
+    min-height: 40px; 
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -335,18 +339,36 @@ nav a:hover {
 }
 
 .premium-btn {
-    display: block;
-    text-align: center;
-    background-color: #40c057;
-    color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--accent);
+    color: #09090b; /* Dark text for contrast against pastel */
     text-decoration: none;
-    padding: 12px 20px;
-    width: 90%;
-    max-width: 250px;
-    border-radius: 6px;
+    padding: 12px 24px;
+    border-radius: 50px; /* Pill shape */
     font-weight: 600;
+    font-size: 0.9rem;
+    width: auto;
+    min-width: 200px;
+    transition: background-color 0.2s, transform 0.1s;
+    border: none;
 }
-.premium-btn.free { background-color: #3b5998; }
+
+.premium-btn:hover {
+    background-color: var(--accent-hover);
+    transform: scale(1.02);
+}
+
+.premium-btn.free { 
+    background-color: var(--accent-hover);; 
+    border: 1px solid var(--accent);
+}
+
+.premium-btn.free:hover {
+    background-color: var(--accent);
+    color: #09090b;
+}
 
 .premium-btn i {
     margin-right: 8px;
