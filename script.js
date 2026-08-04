@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let categoriesData = [];
 
     // --- PAGINATION CONFIGURATION ---
-    const itemsPerPage = 6;
+    const itemsPerPage = 9;
     let currentPage = 1;
     let currentCategory = "all";
 
@@ -61,6 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download on Amazfaces' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium Version';
             const buttonClass = wf.isFree ? 'premium-btn free' : 'premium-btn';
 
+            // Find the human-readable watch model name from categoriesData
+            const watchModel = categoriesData.find(cat => cat.id === wf.category)?.name || wf.category;
+
             return `
             <div class="wf-card" data-category="${wf.category}">
                 
@@ -68,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <img src="${wf.image}" alt="${wf.title}" onload="this.parentElement.classList.remove('loading')">
                     
                     <div class="wf-drawer">
-                        <h4>Main Features</h4>
+                        <h4><b>✅ Detalles</b></h4>
                         <ul>
                             ${wf.features.map(feature => `<li>${feature}</li>`).join('')}
                         </ul>
@@ -80,7 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 <div class="card-content clickable-area">
                     <h3>${wf.title}</h3>
-                    <p class="tagline">${wf.tagline}</p>
+                    <div class="compatibility">
+                        <span>${watchModel}</span>
+                    </div>
                 </div>
                 
             </div>

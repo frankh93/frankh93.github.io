@@ -1,17 +1,18 @@
 :root {
-    --bg-dark: #09090b; /* Deeper, high-contrast dark */
+    --bg-dark: #09090b;
     --bg-card: #121214;
     --text-main: #f0f0f5;
     --text-muted: #8b8b99;
-    --accent: #9fb3c8; /* Desaturated pastel blue */
-    --accent-hover: #b4c5d6;
-    --border-color: rgba(255, 255, 255, 0.04); /* Ultra-low glare border */
+    --accent: #6C8CAE; /* Deeper, muted slate blue */
+    --accent-hover: #82A0C2; /* Slightly brighter for interactions */
+    --border-color: rgba(255, 255, 255, 0.04); 
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent; /* Removes the mobile tap highlight box */
 }
 
 body {
@@ -43,7 +44,7 @@ header {
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between the SVG icon and the text */
+    gap: 10px;
     font-weight: 800;
     font-size: 1.3rem;
     color: #fff;
@@ -52,7 +53,7 @@ header {
 }
 
 .logo-icon {
-    height: 26px; /* Adjust this value to make the logo larger or smaller */
+    height: 26px;
     width: auto;
 }
 
@@ -100,7 +101,7 @@ nav a:hover {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px; /* This adds perfect spacing vertically and horizontally */
+    gap: 15px;
 }
 
 .btn {
@@ -129,23 +130,29 @@ nav a:hover {
 }
 
 .filter-btn {
-    background-color: transparent;
-    border: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.03); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
     color: var(--text-muted);
     padding: 8px 20px;
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px; 
     cursor: pointer;
     font-weight: 500;
     transition: all 0.2s ease;
 }
 
-.filter-btn.active, .filter-btn:hover {
+.filter-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-main);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.filter-btn.active {
     background-color: var(--accent);
-    color: #fff;
+    color: var(--bg-dark); 
     border-color: var(--accent);
 }
 
-/* Cards Grid */
+/* Cards Grid (Now Floating Layout) */
 .watchface-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -154,11 +161,10 @@ nav a:hover {
 }
 
 .wf-card {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 24px; /* Softer, rounder corners */
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.2s;
+    background-color: transparent;
+    border: none;
+    overflow: visible; 
+    transition: transform 0.3s ease;
     animation: fadeIn 0.35s ease-out forwards;
     cursor: pointer;
     display: flex;
@@ -166,49 +172,40 @@ nav a:hover {
 }
 
 .wf-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6); /* Deeper shadow for pop */
-    background-color: #16161a;
+    transform: translateY(-8px); 
+    box-shadow: none;
+    background-color: transparent;
 }
 
-/* Base container for the image */
 .card-image {
     position: relative;
     width: 100%;
     aspect-ratio: 1;
     background-color: transparent;
     overflow: hidden;
-    
-    /* NEW: Flex properties to perfectly center the floating image */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* 2. Shrink the image, contain its shape, and add the shadow */
 .card-image img {
-    /* NEW: Scale down to 80% to leave breathing room around the edges */
-    width: 80%;
-    height: 80%;
-    
-    /* NEW: 'contain' ensures no parts of the watchface are cropped out */
+    width: 85%;
+    height: 85%;
     object-fit: contain; 
-    
     opacity: 1;
-    transition: opacity 0.3s ease-out;
-    
-    /* NEW: The subtle drop shadow. Using 'filter' instead of 'box-shadow' 
-       ensures the shadow hugs the transparent edges of your circular 
-       or rectangular PNGs rather than forming a square box. */
-    filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.7));
+    transition: opacity 0.3s ease-out, transform 0.3s ease, filter 0.3s ease;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.75)); 
 }
 
-/* Hide the image while it is still downloading */
+.wf-card:hover .card-image img {
+    transform: scale(1.04);
+    filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.9));
+}
+
 .card-image.loading img {
     opacity: 0;
 }
 
-/* The Animated Shimmer Effect */
 .card-image.loading::after {
     content: "";
     position: absolute;
@@ -219,13 +216,12 @@ nav a:hover {
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.06), /* The subtle highlight */
+        rgba(255, 255, 255, 0.06), 
         transparent
     );
     animation: shimmer 1.5s infinite;
 }
 
-/* The keyframes that move the shimmer left to right */
 @keyframes shimmer {
     100% {
         left: 200%;
@@ -233,12 +229,12 @@ nav a:hover {
 }
 
 .card-content {
-    padding: 0 20px 24px 20px;
-    text-align: center; /* Centered alignment for cleaner look */
+    padding: 20px 5px 10px 5px;
+    text-align: center; 
 }
 
 .card-content h3 {
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 600;
     margin-bottom: 6px;
 }
@@ -258,12 +254,13 @@ nav a:hover {
 .compatibility {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center; /* This centers the pill */
     gap: 6px;
     margin-bottom: 15px;
 }
 
 .compatibility span {
-    background-color: #2a2a32;
+    background-color: #1d1d22;
     font-size: 0.75rem;
     padding: 3px 8px;
     border-radius: 4px;
@@ -286,16 +283,13 @@ nav a:hover {
     font-size: 0.9rem;
 }
 
-/* Details Drawer Layout */
 .wf-drawer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(26, 26, 30, 0.85); /* Matches your header perfectly */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    background-color: transparent; /* Stripped the dark overlay */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -304,20 +298,18 @@ nav a:hover {
     text-align: center;
     z-index: 10;
     
-    /* Animation & Visibility */
     opacity: 0;
-    pointer-events: none; /* Prevents button clicks when invisible */
+    pointer-events: none; 
     transition: opacity 0.3s ease;
 }
 
 .wf-drawer.open {
     opacity: 1;
-    pointer-events: auto; /* Enables interaction when visible */
+    pointer-events: auto; 
 }
 
-/* Interior Styling for the Overlay */
 .wf-drawer hr { 
-    display: none; /* The divider line isn't needed for the overlay */
+    display: none; 
 }
 
 .wf-drawer h4 {
@@ -329,7 +321,7 @@ nav a:hover {
 .wf-drawer ul { 
     margin: 0 0 20px 0; 
     padding: 0; 
-    list-style: none; /* Removes the bullet points for a cleaner center alignment */
+    list-style: none; 
     color: var(--text-main); 
 }
 
@@ -343,10 +335,10 @@ nav a:hover {
     justify-content: center;
     align-items: center;
     background-color: var(--accent);
-    color: #09090b; /* Dark text for contrast against pastel */
+    color: #09090b; 
     text-decoration: none;
     padding: 12px 24px;
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px; 
     font-weight: 600;
     font-size: 0.9rem;
     width: auto;
@@ -361,7 +353,7 @@ nav a:hover {
 }
 
 .premium-btn.free { 
-    background-color: var(--accent-hover);; 
+    background-color: var(--accent-hover);
     border: 1px solid var(--accent);
 }
 
@@ -380,9 +372,11 @@ nav a:hover {
     padding: 60px 20px;
     border-top: 1px solid var(--border-color);
 }
+
 .about-container { max-width: 800px; margin: 0 auto; text-align: center; }
 .about-container p { color: var(--text-muted); margin: 15px 0 25px; }
 .social-links a { color: var(--accent); text-decoration: none; margin: 0 15px; font-weight: 600; }
+
 footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #555; }
 
 /* Pagination Controls */
@@ -418,7 +412,7 @@ footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #555; }
 /* Responsive Tweaks for Mobile Screens */
 @media (max-width: 600px) {
     .nav-container {
-        flex-direction: column; /* Stacks the logo above the links */
+        flex-direction: column; 
         gap: 12px;
         padding: 12px;
         text-align: center;
@@ -428,26 +422,25 @@ footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #555; }
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-wrap: wrap; /* Allows links to flow naturally if space is tight */
+        flex-wrap: wrap; 
         gap: 12px;
     }
 
     nav a {
-        margin-left: 0; /* Clears out the large desktop spacing margins */
-        font-size: 0.85rem; /* Slightly smaller typography for compact mobile screens */
+        margin-left: 0; 
+        font-size: 0.85rem; 
     }
 
     .hero {
-        padding: 170px 15px 40px; /* Extra top padding so the new taller header doesn't overlap text */
+        padding: 170px 15px 40px; 
     }
 
     .hero h1 {
-        font-size: 1.8rem; /* Scales down the massive headline title so it doesn't wrap aggressively */
+        font-size: 1.8rem; 
     }
 
-    /* Makes the category filter buttons horizontally scrollable if needed */
     .filter-bar {
-        display: flex; /* Ensure it's a flex container */
+        display: flex; 
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
@@ -455,30 +448,25 @@ footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #555; }
     }
 
     .filter-btn {
-        /* The magic fix: */
         flex: 1 1 30%; 
-        /* Optional: prevents the text from stacking inside the pill if screen is tiny */
         white-space: nowrap; 
     }
 
-    /* 1. Stack the social links neatly or let them wrap evenly */
     .social-links {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 20px; /* Replaces the horizontal margin */
+        gap: 20px; 
     }
 
-    /* 2. Remove desktop margins and prevent icon/text splitting */
     .social-links a {
         margin: 0; 
         white-space: nowrap; 
         display: inline-flex;
         align-items: center;
-        gap: 6px; /* Adds space between the icon and text */
+        gap: 6px; 
     }
 
-    /* 3. Give the footer more breathing room on mobile devices */
     footer {
         padding: 30px 20px 40px; 
     }
@@ -496,6 +484,6 @@ footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #555; }
 }
 
 .card-image:has(.wf-drawer.open) img {
-    /* Replaces the drop-shadow with a blur to recreate your original effect */
-    filter: blur(8px);
+    filter: blur(10px); /* Slightly increased the blur for better text readability */
+    opacity: 0.3; /* Fades the image into the dark background */
 }
