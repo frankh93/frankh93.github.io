@@ -3,8 +3,12 @@
     --bg-card: #121214;
     --text-main: #f0f0f5;
     --text-muted: #8b8b99;
-    --accent: #6C8CAE; /* Deeper, muted slate blue */
-    --accent-hover: #82A0C2; /* Slightly brighter for interactions */
+    
+    /* Updated to a vibrant blue */
+    --accent: #0A84FF; 
+    /* A slightly lighter vibrant blue for hover states */
+    --accent-hover: #409CFF; 
+    
     --border-color: rgba(255, 255, 255, 0.04); 
 }
 
@@ -148,7 +152,7 @@ nav a:hover {
 
 .filter-btn.active {
     background-color: var(--accent);
-    color: var(--bg-dark); 
+    color: #ffffff; 
     border-color: var(--accent);
 }
 
@@ -229,7 +233,7 @@ nav a:hover {
 }
 
 .card-content {
-    padding: 20px 5px 10px 5px;
+    padding: 8px 5px 10px 5px;
     text-align: center; 
 }
 
@@ -335,7 +339,7 @@ nav a:hover {
     justify-content: center;
     align-items: center;
     background-color: var(--accent);
-    color: #09090b; 
+    color: #ffffff; 
     text-decoration: none;
     padding: 12px 24px;
     border-radius: 50px; 
@@ -359,7 +363,7 @@ nav a:hover {
 
 .premium-btn.free:hover {
     background-color: var(--accent);
-    color: #09090b;
+    color: #ffffff;
 }
 
 .premium-btn i {
@@ -486,4 +490,19 @@ footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #555; }
 .card-image:has(.wf-drawer.open) img {
     filter: blur(10px); /* Slightly increased the blur for better text readability */
     opacity: 0.3; /* Fades the image into the dark background */
+}
+
+/* Remove the default tight underline from the <u> tag */
+.wf-drawer h4 u {
+    text-decoration: none; 
+}
+
+/* Create a custom, controllable line below the text */
+.wf-drawer h4 u::after {
+    content: "";
+    display: block;
+    width: 60%;               /* Adjust this percentage to make the line shorter or longer */
+    height: 2px;              /* Thickness of the line */
+    background-color: #fff;   /* Matches the text color */
+    margin: 6px auto 0;       /* '6px' sets the gap from the word, 'auto' centers the line */
 }
