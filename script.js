@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <img src="${wf.image}" alt="${wf.title}" onload="this.parentElement.classList.remove('loading')">
                     
                     <div class="wf-drawer">
-                        <h4><b>✅ Detalles</b></h4>
+                        <h4><b>Features</b></h4>
                         <ul>
                             ${wf.features.map(feature => `<li>${feature}</li>`).join('')}
                         </ul>
