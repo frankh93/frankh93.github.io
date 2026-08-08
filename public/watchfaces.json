@@ -52,6 +52,19 @@
         ]
     },
     {
+        "title": "SimonWatch",
+        "category": "amazfit-bip6",
+        "image": "https://i.postimg.cc/JhrnB7zd/SIMONWATCH-FZ3-PREVIEW.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45440",
+        "premiumLink": "",
+        "isFree": true,
+        "features": [
+            "Classical game",
+            "Shortcuts",
+            "AOD"
+        ]
+    },
+    {
         "title": "ChronoSport Max",
         "category": "amazfit-activemax",
         "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
