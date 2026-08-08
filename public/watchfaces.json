@@ -65,6 +65,19 @@
         ]
     },
     {
+        "title": "Chatreuse",
+        "category": "amazfit-bip6",
+        "image": "https://i.postimg.cc/GmPt3Rbx/CHATREUSE-FZ3-PREVIEW.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45267",
+        "premiumLink": "",
+        "isFree": true,
+        "features": [
+            "Many colors",
+            "Light/Dark theme",
+            "Multilingual"
+        ]
+    },
+    {
         "title": "ChronoSport Max",
         "category": "amazfit-activemax",
         "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
