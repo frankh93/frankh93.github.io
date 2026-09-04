@@ -1,14 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     let watchfaceData = []; 
     let categoriesData = [];
-
-    // --- PAGINATION CONFIGURATION ---
-    const itemsPerPage = 9;
-    let currentPage = 1;
     let currentCategory = "all";
 
     const gridContainer = document.getElementById("watchface-grid");
-    const paginationContainer = document.getElementById("pagination-controls");
     const filterBar = document.querySelector(".filter-bar");
 
     // --- FETCH BOTH JSON FILES ---
@@ -39,8 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 button.classList.add("active");
                 
                 currentCategory = button.getAttribute("data-filter");
-                currentPage = 1; 
                 renderApp();
+                
+                // Snap carousel back to the start when a new filter is clicked
+                gridContainer.scrollTo({ left: 0, behavior: 'smooth' });
             });
         });
     }
@@ -51,12 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentCategory === "all" || wf.category === currentCategory
         );
 
-        const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const pageData = filteredData.slice(startIndex, endIndex);
-
-        gridContainer.innerHTML = pageData.map(wf => {
+        gridContainer.innerHTML = filteredData.map(wf => {
             const buttonLink = wf.isFree ? wf.amazfacesLink : wf.premiumLink;
             const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download on Amazfaces' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium Version';
             const buttonClass = wf.isFree ? 'premium-btn free' : 'premium-btn';
@@ -91,51 +83,87 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             `;
         }).join('');
+    }
+    // --- AUTO SCROLL LOGIC ---
+    let autoScrollInterval;
 
-        renderPaginationControls(totalPages);
+    function startAutoScroll() {
+        clearInterval(autoScrollInterval); // Prevent multiple intervals
+        autoScrollInterval = setInterval(() => {
+            cycleCarousel();
+        }, 5000); // 5 seconds
     }
 
-    function renderPaginationControls(totalPages) {
-        paginationContainer.innerHTML = "";
-        
-        if (totalPages <= 1) return; 
+    function cycleCarousel() {
+        const firstCard = gridContainer.firstElementChild;
+        if (!firstCard) return;
 
-        for (let i = 1; i <= totalPages; i++) {
-            const btn = document.createElement("button");
-            btn.classList.add("page-btn");
-            if (i === currentPage) btn.classList.add("active");
-            btn.innerText = i;
+        // Calculate dynamic scroll amount (Card width + CSS gap)
+        const cardWidth = firstCard.offsetWidth;
+        const gap = parseInt(window.getComputedStyle(gridContainer).gap) || 0;
+        const scrollAmount = cardWidth + gap;
+
+        // 1. Smoothly scroll to the next card
+        gridContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+
+        // 2. Wait for the scroll animation to finish (approx 500ms)
+        setTimeout(() => {
+            // Temporarily disable smooth scrolling
+            gridContainer.classList.add("no-smooth");
             
-            btn.addEventListener("click", () => {
-                currentPage = i;
-                renderApp();
-                document.getElementById("catalog").scrollIntoView({ behavior: "smooth" });
-            });
+            // Move the first card to the end of the list
+            gridContainer.appendChild(firstCard);
             
-            paginationContainer.appendChild(btn);
-        }
+            // Instantly adjust the scroll position back so the screen doesn't jump
+            gridContainer.scrollLeft -= scrollAmount;
+            
+            // Force the browser to register the changes (DOM Reflow)
+            void gridContainer.offsetWidth; 
+            
+            // Re-enable smooth scrolling for the next cycle
+            gridContainer.classList.remove("no-smooth");
+        }, 500); 
     }
+
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+    }
+
+    // Start auto-scroll after the app renders
+    renderApp(); 
+    startAutoScroll();
 
     // --- EVENT LISTENERS ---
+
+    // Pause auto-scroll on hover or touch so users can read the details
+    gridContainer.addEventListener("mouseenter", stopAutoScroll);
+    gridContainer.addEventListener("touchstart", stopAutoScroll, { passive: true });
     
+    // Resume auto-scroll when they leave, UNLESS a drawer is currently open
+    gridContainer.addEventListener("mouseleave", () => {
+        if (!gridContainer.querySelector(".wf-drawer.open")) startAutoScroll();
+    });
+    gridContainer.addEventListener("touchend", () => {
+        if (!gridContainer.querySelector(".wf-drawer.open")) startAutoScroll();
+    });
+
     // Expandable Drawers (Clickable Text & Overlay Dismiss)
     gridContainer.addEventListener("click", (e) => {
-        
-        // 1. If the user clicks the blurred overlay (but NOT the button), close it.
         const clickedOverlay = e.target.closest(".wf-drawer");
         const clickedLink = e.target.closest("a");
+        
         if (clickedOverlay && !clickedLink) {
             clickedOverlay.classList.remove("open");
+            startAutoScroll(); // Resume scrolling when drawer closes
             return;
         }
 
-        // 2. Listen for clicks ANYWHERE on the card
         const currentCard = e.target.closest(".wf-card");
-        if (!currentCard) return; // Ignore clicks outside of cards
+        if (!currentCard) return; 
 
         const currentDrawer = currentCard.querySelector(".wf-drawer");
         
-        // Close all other open drawers first (Accordion effect)
+        // Close all other open drawers first
         const allOpenDrawers = gridContainer.querySelectorAll(".wf-drawer.open");
         allOpenDrawers.forEach(drawer => {
             if (drawer !== currentDrawer) {
@@ -143,7 +171,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Toggle the clicked one
-        currentDrawer.classList.toggle("open");
+        if (currentDrawer) {
+            const isOpen = currentDrawer.classList.toggle("open");
+            // Stop scroll if opened, resume if closed
+            if (isOpen) {
+                stopAutoScroll(); 
+            } else {
+                startAutoScroll(); 
+            }
+        }
     });
 });
