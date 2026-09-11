@@ -165,8 +165,11 @@ header {
     animation: scrollMarquee 40s linear infinite;
 }
 
-.watchface-grid:hover {
-    animation-play-state: paused;
+/* Only pause on hover if hovering directly over a card (ignores the gaps) */
+@media (hover: hover) {
+    .watchface-grid:has(.wf-card:hover) {
+        animation-play-state: paused;
+    }
 }
 
 .marquee-group {

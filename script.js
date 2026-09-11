@@ -60,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- EVENT LISTENERS (DRAWER CONTROLS) ---
+    
+    // 1. Handle Clicks (Opening drawers)
     gridContainer.addEventListener("click", (e) => {
         const clickedOverlay = e.target.closest(".wf-drawer");
         const clickedLink = e.target.closest("a");
@@ -85,6 +87,35 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentDrawer) {
             currentDrawer.classList.toggle("open");
             checkDrawerState();
+        }
+    });
+
+    // 2. Handle Mouse Leave (Desktop auto-close)
+    gridContainer.addEventListener("mouseout", (e) => {
+        const currentCard = e.target.closest(".wf-card");
+        
+        if (currentCard) {
+            // e.relatedTarget is where the mouse is moving TO.
+            // If the mouse is moving outside of this specific card, close its drawer.
+            if (!currentCard.contains(e.relatedTarget)) {
+                const openDrawer = currentCard.querySelector(".wf-drawer.open");
+                if (openDrawer) {
+                    openDrawer.classList.remove("open");
+                    checkDrawerState();
+                }
+            }
+        }
+    });
+
+    // 3. Handle Outside Clicks (Mobile & Desktop safeguard)
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".watchface-grid")) {
+            const allOpenDrawers = gridContainer.querySelectorAll(".wf-drawer.open");
+            
+            if (allOpenDrawers.length > 0) {
+                allOpenDrawers.forEach(drawer => drawer.classList.remove("open"));
+                checkDrawerState();
+            }
         }
     });
 
