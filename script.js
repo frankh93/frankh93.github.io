@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderApp() {
         const itemsHTML = watchfaceData.map(wf => {
             const buttonLink = wf.isFree ? wf.amazfacesLink : wf.premiumLink;
-            const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download on Amazfaces' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium Version';
+            const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium Version';
             const buttonClass = wf.isFree ? 'premium-btn free' : 'premium-btn';
             
             const watchModel = categoriesData.find(cat => cat.id === wf.category)?.name || wf.category;
