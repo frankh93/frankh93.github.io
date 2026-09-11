@@ -4,6 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gridContainer = document.getElementById("watchface-grid");
 
+    // --- ANIMATION ENGINE VARIABLES ---
+    let currentX = 0;
+    let targetX = 0;
+    let isPaused = false;
+    let isCentering = false;
+    let groupWidth = 0;
+    let animationId;
+    
+    // Adjust this to change the scrolling speed (pixels per frame)
+    const marqueeSpeed = 0.8; 
+
     // --- FETCH BOTH JSON FILES ---
     Promise.all([
         fetch('./watches.json').then(res => res.json()),
@@ -16,11 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(error => console.error('Error loading data:', error));
 
-    // --- CORE LOGIC (CONTINUOUS MARQUEE) ---
+    // --- CORE LOGIC ---
     function renderApp() {
         const itemsHTML = watchfaceData.map(wf => {
             const buttonLink = wf.isFree ? wf.amazfacesLink : wf.premiumLink;
-            const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium Version';
+            const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium';
             const buttonClass = wf.isFree ? 'premium-btn free' : 'premium-btn';
             
             const watchModel = categoriesData.find(cat => cat.id === wf.category)?.name || wf.category;
@@ -51,17 +62,73 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }).join('');
 
+        // Inject 6 groups to create a massive invisible buffer on both sides of the screen.
+        // This guarantees the loop never breaks, even when aggressively shifting the track.
         gridContainer.innerHTML = `
             <div class="marquee-group">${itemsHTML}</div>
-            <div class="marquee-group" aria-hidden="true">${itemsHTML}</div>
-            <div class="marquee-group" aria-hidden="true">${itemsHTML}</div>
-            <div class="marquee-group" aria-hidden="true">${itemsHTML}</div>
+            <div class="marquee-group">${itemsHTML}</div>
+            <div class="marquee-group">${itemsHTML}</div>
+            <div class="marquee-group">${itemsHTML}</div>
+            <div class="marquee-group">${itemsHTML}</div>
+            <div class="marquee-group">${itemsHTML}</div>
         `;
+
+        // Wait a split second for the DOM and images to render so we can measure the track
+        setTimeout(() => {
+            updateDimensions();
+            // Start the marquee in the middle of our 6 groups
+            currentX = -(groupWidth * 2);
+            targetX = currentX;
+            startMarquee();
+        }, 150);
+    }
+
+    function updateDimensions() {
+        const group = gridContainer.querySelector('.marquee-group');
+        if (group) groupWidth = group.offsetWidth;
+    }
+    window.addEventListener('resize', updateDimensions);
+
+    // --- JS ANIMATION ENGINE ---
+    function startMarquee() {
+        if (animationId) cancelAnimationFrame(animationId);
+
+        function loop() {
+            if (!isPaused && !isCentering) {
+                // Normal scrolling
+                currentX -= marqueeSpeed;
+                targetX = currentX;
+            } else if (isCentering) {
+                // Smooth slide to the centered target
+                currentX += (targetX - currentX) * 0.1;
+                // Once it reaches the center, stop the slide animation
+                if (Math.abs(targetX - currentX) < 0.5) {
+                    currentX = targetX;
+                    isCentering = false;
+                }
+            }
+
+            // Infinite Looping Math
+            if (groupWidth > 0) {
+                // If it scrolls too far left, jump back seamlessly
+                if (currentX <= -(groupWidth * 3)) {
+                    currentX += groupWidth;
+                    targetX += groupWidth;
+                } 
+                // If we shifted it too far right, jump forward seamlessly
+                else if (currentX >= -groupWidth) {
+                    currentX -= groupWidth;
+                    targetX -= groupWidth;
+                }
+            }
+
+            gridContainer.style.transform = `translateX(${currentX}px)`;
+            animationId = requestAnimationFrame(loop);
+        }
+        loop();
     }
 
     // --- EVENT LISTENERS (DRAWER CONTROLS) ---
-    
-    // 1. Handle Clicks (Opening drawers)
     gridContainer.addEventListener("click", (e) => {
         const clickedOverlay = e.target.closest(".wf-drawer");
         const clickedLink = e.target.closest("a");
@@ -85,33 +152,50 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (currentDrawer) {
-            currentDrawer.classList.toggle("open");
-            checkDrawerState();
-        }
-    });
+            const isOpen = currentDrawer.classList.toggle("open");
+            if (isOpen) {
+                isPaused = true;
+                
+                // If on mobile, calculate distance and trigger the slide engine
+                if (window.innerWidth <= 768) {
+                    const rect = currentCard.getBoundingClientRect();
+                    const cardCenter = rect.left + (rect.width / 2);
+                    const screenCenter = window.innerWidth / 2;
+                    const offset = screenCenter - cardCenter;
 
-    // 2. Handle Mouse Leave (Desktop auto-close)
-    gridContainer.addEventListener("mouseout", (e) => {
-        const currentCard = e.target.closest(".wf-card");
-        
-        if (currentCard) {
-            // e.relatedTarget is where the mouse is moving TO.
-            // If the mouse is moving outside of this specific card, close its drawer.
-            if (!currentCard.contains(e.relatedTarget)) {
-                const openDrawer = currentCard.querySelector(".wf-drawer.open");
-                if (openDrawer) {
-                    openDrawer.classList.remove("open");
-                    checkDrawerState();
+                    targetX = currentX + offset;
+                    isCentering = true;
                 }
+            } else {
+                checkDrawerState();
             }
         }
     });
 
-    // 3. Handle Outside Clicks (Mobile & Desktop safeguard)
+    // Handle Mouse Hover Pausing (Desktop)
+    gridContainer.addEventListener("mouseover", (e) => {
+        if (e.target.closest(".wf-card") && window.matchMedia("(hover: hover)").matches) {
+            isPaused = true;
+        }
+    });
+
+    gridContainer.addEventListener("mouseout", (e) => {
+        const currentCard = e.target.closest(".wf-card");
+        if (currentCard) {
+            if (!currentCard.contains(e.relatedTarget)) {
+                const openDrawer = currentCard.querySelector(".wf-drawer.open");
+                if (openDrawer) {
+                    openDrawer.classList.remove("open");
+                }
+                checkDrawerState();
+            }
+        }
+    });
+
+    // Handle Outside Clicks
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".watchface-grid")) {
             const allOpenDrawers = gridContainer.querySelectorAll(".wf-drawer.open");
-            
             if (allOpenDrawers.length > 0) {
                 allOpenDrawers.forEach(drawer => drawer.classList.remove("open"));
                 checkDrawerState();
@@ -119,11 +203,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // --- STATE MANAGER ---
     function checkDrawerState() {
-        if (gridContainer.querySelector(".wf-drawer.open")) {
-            gridContainer.style.animationPlayState = 'paused';
+        const openDrawer = gridContainer.querySelector(".wf-drawer.open");
+        
+        if (openDrawer) {
+            isPaused = true;
         } else {
-            gridContainer.style.animationPlayState = ''; 
+            // Check if the user is still hovering over a card on a desktop before unpausing
+            const isHoveringCard = gridContainer.querySelector(".wf-card:hover");
+            if (isHoveringCard && window.matchMedia("(hover: hover)").matches) {
+                isPaused = true;
+            } else {
+                // Unpause and seamlessly resume from current position
+                isPaused = false;
+                isCentering = false;
+                targetX = currentX;
+            }
         }
     }
 });

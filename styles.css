@@ -162,25 +162,13 @@ header {
 .watchface-grid {
     display: flex;
     width: max-content; 
-    animation: scrollMarquee 40s linear infinite;
-}
-
-/* Only pause on hover if hovering directly over a card (ignores the gaps) */
-@media (hover: hover) {
-    .watchface-grid:has(.wf-card:hover) {
-        animation-play-state: paused;
-    }
+    /* The CSS animation rules were removed here; JS handles it now */
 }
 
 .marquee-group {
     display: flex;
     gap: 25px;
     padding-right: 25px; 
-}
-
-@keyframes scrollMarquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } 
 }
 
 /* --- WATCHFACE CARDS --- */
@@ -347,7 +335,7 @@ footer {
 
 .donation-text {
     font-size: 1.05rem;
-    color: var(--text-muted); /* Darkened slightly so the white title stands out more */
+    color: var(--text-muted); 
     margin-bottom: 25px;
     line-height: 1.5;
 }
