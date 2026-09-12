@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let animationId;
     
     // Adjust this to change the scrolling speed (pixels per frame)
-    const marqueeSpeed = 0.8; 
+    const marqueeSpeed = 1.25; 
 
     // --- FETCH BOTH JSON FILES ---
     Promise.all([
