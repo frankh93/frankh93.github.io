@@ -114,6 +114,8 @@ header {
     background-color: rgba(10, 132, 255, 0.1); 
     border: 1px solid var(--accent); 
     color: var(--text-main); 
+    width: 260px; /* Forces all 3 buttons to be exactly this wide */
+    max-width: 100%; /* Prevents them from breaking the layout on tiny phone screens */
 }
 .btn.catalog-btn i { color: var(--accent); transition: color 0.2s ease; }
 .btn.catalog-btn:hover {

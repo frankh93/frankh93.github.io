@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Adjust this to change the scrolling speed (PIXELS PER SECOND)
     // Try numbers like 50 (slower) or 100 (faster)
-    const marqueeSpeed = 120; 
+    const marqueeSpeed = 125; 
 
     // --- FETCH BOTH JSON FILES ---
     Promise.all([
