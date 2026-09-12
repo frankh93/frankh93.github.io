@@ -11,9 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let isCentering = false;
     let groupWidth = 0;
     let animationId;
+    let lastTime = 0; // Tracks time for smooth animation across all devices
     
-    // Adjust this to change the scrolling speed (pixels per frame)
-    const marqueeSpeed = 1.25; 
+    // Adjust this to change the scrolling speed (PIXELS PER SECOND)
+    // Try numbers like 50 (slower) or 100 (faster)
+    const marqueeSpeed = 100; 
 
     // --- FETCH BOTH JSON FILES ---
     Promise.all([
@@ -31,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderApp() {
         const itemsHTML = watchfaceData.map(wf => {
             const buttonLink = wf.isFree ? wf.amazfacesLink : wf.premiumLink;
-            const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium';
+            const buttonText = wf.isFree ? '<i class="fa-solid fa-download"></i> Download' : '<i class="fa-solid fa-cart-shopping"></i> Get Premium Version';
             const buttonClass = wf.isFree ? 'premium-btn free' : 'premium-btn';
             
             const watchModel = categoriesData.find(cat => cat.id === wf.category)?.name || wf.category;
@@ -62,8 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }).join('');
 
-        // Inject 6 groups to create a massive invisible buffer on both sides of the screen.
-        // This guarantees the loop never breaks, even when aggressively shifting the track.
+        // Inject 6 groups to create a massive invisible buffer
         gridContainer.innerHTML = `
             <div class="marquee-group">${itemsHTML}</div>
             <div class="marquee-group">${itemsHTML}</div>
@@ -73,10 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="marquee-group">${itemsHTML}</div>
         `;
 
-        // Wait a split second for the DOM and images to render so we can measure the track
         setTimeout(() => {
             updateDimensions();
-            // Start the marquee in the middle of our 6 groups
             currentX = -(groupWidth * 2);
             targetX = currentX;
             startMarquee();
@@ -89,19 +88,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.addEventListener('resize', updateDimensions);
 
-    // --- JS ANIMATION ENGINE ---
+    // --- JS DELTA-TIME ANIMATION ENGINE ---
     function startMarquee() {
         if (animationId) cancelAnimationFrame(animationId);
+        lastTime = performance.now(); // Start the clock
 
-        function loop() {
+        function loop(currentTime) {
+            // Calculate time passed since the exact last frame
+            const dt = currentTime - lastTime;
+            lastTime = currentTime;
+
+            // Cap the time difference to prevent massive jumps if you minimize the browser tab
+            const safeDt = Math.min(dt, 50); 
+
             if (!isPaused && !isCentering) {
-                // Normal scrolling
-                currentX -= marqueeSpeed;
+                // Move based strictly on time passed (Speed is universally identical)
+                currentX -= (marqueeSpeed * safeDt) / 1000;
                 targetX = currentX;
             } else if (isCentering) {
-                // Smooth slide to the centered target
                 currentX += (targetX - currentX) * 0.1;
-                // Once it reaches the center, stop the slide animation
                 if (Math.abs(targetX - currentX) < 0.5) {
                     currentX = targetX;
                     isCentering = false;
@@ -110,13 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Infinite Looping Math
             if (groupWidth > 0) {
-                // If it scrolls too far left, jump back seamlessly
                 if (currentX <= -(groupWidth * 3)) {
                     currentX += groupWidth;
                     targetX += groupWidth;
-                } 
-                // If we shifted it too far right, jump forward seamlessly
-                else if (currentX >= -groupWidth) {
+                } else if (currentX >= -groupWidth) {
                     currentX -= groupWidth;
                     targetX -= groupWidth;
                 }
@@ -125,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             gridContainer.style.transform = `translateX(${currentX}px)`;
             animationId = requestAnimationFrame(loop);
         }
-        loop();
+        animationId = requestAnimationFrame(loop);
     }
 
     // --- EVENT LISTENERS (DRAWER CONTROLS) ---
@@ -156,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isOpen) {
                 isPaused = true;
                 
-                // If on mobile, calculate distance and trigger the slide engine
                 if (window.innerWidth <= 768) {
                     const rect = currentCard.getBoundingClientRect();
                     const cardCenter = rect.left + (rect.width / 2);
@@ -172,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Handle Mouse Hover Pausing (Desktop)
     gridContainer.addEventListener("mouseover", (e) => {
         if (e.target.closest(".wf-card") && window.matchMedia("(hover: hover)").matches) {
             isPaused = true;
@@ -192,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Handle Outside Clicks
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".watchface-grid")) {
             const allOpenDrawers = gridContainer.querySelectorAll(".wf-drawer.open");
@@ -203,19 +202,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- STATE MANAGER ---
     function checkDrawerState() {
         const openDrawer = gridContainer.querySelector(".wf-drawer.open");
         
         if (openDrawer) {
             isPaused = true;
         } else {
-            // Check if the user is still hovering over a card on a desktop before unpausing
             const isHoveringCard = gridContainer.querySelector(".wf-card:hover");
             if (isHoveringCard && window.matchMedia("(hover: hover)").matches) {
                 isPaused = true;
             } else {
-                // Unpause and seamlessly resume from current position
                 isPaused = false;
                 isCentering = false;
                 targetX = currentX;
