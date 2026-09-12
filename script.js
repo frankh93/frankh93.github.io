@@ -4,6 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gridContainer = document.getElementById("watchface-grid");
 
+    const backToTopBtn = document.getElementById("back-to-top");
+
+    // --- PRO SCROLL TO TOP ---
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener("click", (e) => {
+            e.preventDefault(); // This is the magic line! It stops the '#' from entering the URL.
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+
     // --- ANIMATION ENGINE VARIABLES ---
     let currentX = 0;
     let targetX = 0;
