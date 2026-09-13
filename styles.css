@@ -112,10 +112,10 @@ header {
 /* Accented Catalog Buttons */
 .btn.catalog-btn { 
     background-color: rgba(10, 132, 255, 0.1); 
-    border: 1px solid var(--accent); 
+    border: none; /* Changed from 1px solid var(--accent) */
     color: var(--text-main); 
-    width: 260px; /* Forces all 3 buttons to be exactly this wide */
-    max-width: 100%; /* Prevents them from breaking the layout on tiny phone screens */
+    width: 260px; 
+    max-width: 100%; 
 }
 .btn.catalog-btn i { color: var(--accent); transition: color 0.2s ease; }
 .btn.catalog-btn:hover {
@@ -141,14 +141,14 @@ header {
 
 .catalog-more h2 {
     margin-bottom: 20px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .catalog-buttons {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
 }
 
 /* --- CONTINUOUS MARQUEE CAROUSEL --- */
@@ -164,7 +164,6 @@ header {
 .watchface-grid {
     display: flex;
     width: max-content; 
-    /* The CSS animation rules were removed here; JS handles it now */
 }
 
 .marquee-group {
@@ -329,7 +328,7 @@ footer {
 }
 
 .donation-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     color: #ffffff;
     font-weight: 700;
     margin-bottom: 8px;
@@ -353,6 +352,34 @@ footer {
 .copyright {
     font-size: 0.8rem; 
     color: #555;
+}
+
+/* --- CHAT PROMPT --- */
+.chat-prompt-container {
+    margin-bottom: 40px;
+}
+
+.chat-prompt-title {
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.chat-prompt-text {
+    font-size: 1.05rem;
+    color: var(--text-muted); 
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.footer-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 0 auto 10px auto;
+    width: 60%;
+    max-width: 400px;
 }
 
 /* Responsive Tweaks for Mobile Screens */
