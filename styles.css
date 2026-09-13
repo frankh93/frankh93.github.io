@@ -112,19 +112,32 @@ header {
 /* Accented Catalog Buttons */
 .btn.catalog-btn { 
     background-color: rgba(10, 132, 255, 0.1); 
-    border: none; /* Changed from 1px solid var(--accent) */
+    border: none; 
     color: var(--text-main); 
     width: 260px; 
     max-width: 100%; 
 }
-.btn.catalog-btn i { color: var(--accent); transition: color 0.2s ease; }
+
+.btn.catalog-btn i,
+.btn.catalog-btn .icon-watch { 
+    color: var(--accent); 
+    transition: color 0.2s ease; 
+    margin-right: 8px; 
+    font-size: 1.1rem;
+    vertical-align: -0.125em; 
+}
+
 .btn.catalog-btn:hover {
     background-color: var(--accent);
     color: #fff;
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(10, 132, 255, 0.25);
 }
-.btn.catalog-btn:hover i { color: #fff; }
+
+.btn.catalog-btn:hover i,
+.btn.catalog-btn:hover .icon-watch { 
+    color: #fff; 
+}
 
 /* Catalog Section */
 .catalog-section {
