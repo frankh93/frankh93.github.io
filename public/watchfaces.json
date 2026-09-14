@@ -5,7 +5,7 @@
         "image": "watchface_1.gif",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
         "premiumLink": "",
-        "isFree": false,
+        "isFree": true,
         "features": [
             "Many styles",
             "Editable modules",
@@ -44,7 +44,7 @@
         "image": "watchface_4.gif",
         "amazfacesLink": "https://buymeacoffee.com/frankh93/extras",
         "premiumLink": "",
-        "isFree": true,
+        "isFree": false,
         "features": [
             "Minimal",
             "Many color styles",
@@ -96,7 +96,7 @@
         "image": "watchface_8.gif",
         "amazfacesLink": "",
         "premiumLink": "https://buymeacoffee.com/frankh93/extras",
-        "isFree": true,
+        "isFree": false,
         "features": [
             "Simple modern design",
             "Well-looking AOD",
@@ -135,7 +135,7 @@
         "image": "watchface_11.gif",
         "amazfacesLink": "",
         "premiumLink": "https://buymeacoffee.com/frankh93/extras",
-        "isFree": true,
+        "isFree": false,
         "features": [
             "Simple modern design",
             "Well-looking AOD",
@@ -148,7 +148,7 @@
         "image": "watchface_12.gif",
         "amazfacesLink": "",
         "premiumLink": "https://buymeacoffee.com/frankh93/extras",
-        "isFree": true,
+        "isFree": false,
         "features": [
             "Simple modern design",
             "Well-looking AOD",
