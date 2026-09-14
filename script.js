@@ -3,13 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let categoriesData = [];
 
     const gridContainer = document.getElementById("watchface-grid");
-
     const backToTopBtn = document.getElementById("back-to-top");
 
     // --- PRO SCROLL TO TOP ---
     if (backToTopBtn) {
         backToTopBtn.addEventListener("click", (e) => {
-            e.preventDefault(); // This is the magic line! It stops the '#' from entering the URL.
+            e.preventDefault(); 
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
@@ -24,11 +23,48 @@ document.addEventListener("DOMContentLoaded", () => {
     let isCentering = false;
     let groupWidth = 0;
     let animationId;
-    let lastTime = 0; // Tracks time for smooth animation across all devices
+    let lastTime = 0; 
     
-    // Adjust this to change the scrolling speed (PIXELS PER SECOND)
-    // Try numbers like 50 (slower) or 100 (faster)
-    const marqueeSpeed = 175; 
+    const marqueeSpeed = 190; 
+
+    // --- SHUFFLE & SORT LOGIC ---
+    // Standard Fisher-Yates shuffle for arrays
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Groups watchfaces by model, shuffles them, then alternates them
+    function randomizeWatchfaces(data) {
+        const groups = {};
+        
+        // Group all watchfaces by their category (watch model)
+        data.forEach(wf => {
+            if (!groups[wf.category]) groups[wf.category] = [];
+            groups[wf.category].push(wf);
+        });
+
+        // Shuffle the items inside each individual category
+        Object.values(groups).forEach(group => shuffleArray(group));
+
+        const randomizedData = [];
+        let itemsRemaining = true;
+        
+        // Pull one item from each category in a loop until all are empty
+        while (itemsRemaining) {
+            itemsRemaining = false;
+            for (const category in groups) {
+                if (groups[category].length > 0) {
+                    randomizedData.push(groups[category].pop());
+                    itemsRemaining = true;
+                }
+            }
+        }
+        
+        return randomizedData;
+    }
 
     // --- FETCH BOTH JSON FILES ---
     Promise.all([
@@ -37,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ])
     .then(([categories, watchfaces]) => {
         categoriesData = categories;
-        watchfaceData = watchfaces; 
+        // Pass the raw data through the randomizer before saving it
+        watchfaceData = randomizeWatchfaces(watchfaces); 
         renderApp();      
     })
     .catch(error => console.error('Error loading data:', error));
@@ -54,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return `
             <div class="wf-card" data-category="${wf.category}">
                 <div class="card-image loading">
-                    <img src="${wf.image}" alt="${wf.title}" onload="this.parentElement.classList.remove('loading')">
+                    <img src="${import.meta.env.BASE_URL}images/${wf.image}" alt="${wf.title}" onload="this.parentElement.classList.remove('loading')">
                     
                     <div class="wf-drawer">
                         <h4><b><u>Features</u></b></h4>
@@ -104,18 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- JS DELTA-TIME ANIMATION ENGINE ---
     function startMarquee() {
         if (animationId) cancelAnimationFrame(animationId);
-        lastTime = performance.now(); // Start the clock
+        lastTime = performance.now(); 
 
         function loop(currentTime) {
-            // Calculate time passed since the exact last frame
             const dt = currentTime - lastTime;
             lastTime = currentTime;
-
-            // Cap the time difference to prevent massive jumps if you minimize the browser tab
             const safeDt = Math.min(dt, 50); 
 
             if (!isPaused && !isCentering) {
-                // Move based strictly on time passed (Speed is universally identical)
                 currentX -= (marqueeSpeed * safeDt) / 1000;
                 targetX = currentX;
             } else if (isCentering) {
@@ -126,7 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // Infinite Looping Math
             if (groupWidth > 0) {
                 if (currentX <= -(groupWidth * 3)) {
                     currentX += groupWidth;

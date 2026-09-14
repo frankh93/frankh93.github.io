@@ -1,10 +1,10 @@
 [
     {
-        "title": "Concentric Modular",
+        "title": "Dotted Clock",
         "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/8kLfZjqX/CONCENTRIC-MODULAR-FZ3-PREVIEW.gif",
-        "amazfacesLink": "",
-        "premiumLink": "https://buymeacoffee.com/frankh93/e/543919",
+        "image": "watchface_1.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
+        "premiumLink": "",
         "isFree": false,
         "features": [
             "Many styles",
@@ -15,7 +15,7 @@
     {
         "title": "Ultra Bip 6",
         "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/7YvLBfL3/ULTRA-BIP-6-PREVIEW.gif",
+        "image": "watchface_2.gif",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/44251",
         "premiumLink": "",
         "isFree": true,
@@ -28,7 +28,7 @@
     {
         "title": "Zenith",
         "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/RZZHcNRs/ZENITH-FZ3-PREVIEW.gif",
+        "image": "watchface_3.gif",
         "amazfacesLink": "",
         "premiumLink": "https://buymeacoffee.com/frankh93/extras",
         "isFree": false,
@@ -39,10 +39,10 @@
         ]
     },
     {
-        "title": "Dotted Clock",
+        "title": "Fluxen",
         "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/C5nmycM6/DOTTEDCLOCK.gif",
-        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43990",
+        "image": "watchface_4.gif",
+        "amazfacesLink": "https://buymeacoffee.com/frankh93/extras",
         "premiumLink": "",
         "isFree": true,
         "features": [
@@ -52,10 +52,10 @@
         ]
     },
     {
-        "title": "SimonWatch",
-        "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/JhrnB7zd/SIMONWATCH-FZ3-PREVIEW.gif",
-        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45440",
+        "title": "ChronoSport Max",
+        "category": "amazfit-activemax",
+        "image": "watchface_5.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/active/view/2400",
         "premiumLink": "",
         "isFree": true,
         "features": [
@@ -65,24 +65,37 @@
         ]
     },
     {
-        "title": "Chatreuse",
-        "category": "amazfit-bip6",
-        "image": "https://i.postimg.cc/GmPt3Rbx/CHATREUSE-FZ3-PREVIEW.gif",
-        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45267",
+        "title": "Dotted Clock",
+        "category": "amazfit-activemax",
+        "image": "watchface_6.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/active/view/2687",
         "premiumLink": "",
         "isFree": true,
         "features": [
-            "Many colors",
-            "Light/Dark theme",
-            "Multilingual"
+            "Classical game",
+            "Shortcuts",
+            "AOD"
         ]
     },
     {
-        "title": "ChronoSport Max",
+        "title": "Counting",
         "category": "amazfit-activemax",
-        "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
-        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/43981",
+        "image": "watchface_7.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/active/view/2804",
         "premiumLink": "",
+        "isFree": true,
+        "features": [
+            "Simple modern design",
+            "Well-looking AOD",
+            "Useful info on display"
+        ]
+    },
+    {
+        "title": "Zenith Max",
+        "category": "amazfit-activemax",
+        "image": "watchface_8.gif",
+        "amazfacesLink": "",
+        "premiumLink": "https://buymeacoffee.com/frankh93/extras",
         "isFree": true,
         "features": [
             "Simple modern design",
@@ -93,7 +106,7 @@
     {
         "title": "ChronoSport",
         "category": "amazfit-bipmax",
-        "image": "https://i.postimg.cc/hv3Zf6XC/CHRONOSPORT-FZ3-PREVIEW.gif",
+        "image": "watchface_9.gif",
         "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45288",
         "premiumLink": "",
         "isFree": true,
@@ -104,11 +117,37 @@
         ]
     },
     {
-        "title": "ChronoSport Max",
-        "category": "amazfit-active2round",
-        "image": "https://i.postimg.cc/KcPJXzX7/CHRONOSPORT-MAX-FZ3-PREVIEW.gif",
-        "amazfacesLink": "https://amazfitwatchfaces.com/active/view/2524",
+        "title": "Counting",
+        "category": "amazfit-bipmax",
+        "image": "watchface_10.gif",
+        "amazfacesLink": "https://amazfitwatchfaces.com/bip/view/45593",
         "premiumLink": "",
+        "isFree": true,
+        "features": [
+            "Simple modern design",
+            "Well-looking AOD",
+            "Useful info on display"
+        ]
+    },
+    {
+        "title": "Concentric",
+        "category": "amazfit-bipmax",
+        "image": "watchface_11.gif",
+        "amazfacesLink": "",
+        "premiumLink": "https://buymeacoffee.com/frankh93/extras",
+        "isFree": true,
+        "features": [
+            "Simple modern design",
+            "Well-looking AOD",
+            "Useful info on display"
+        ]
+    },
+    {
+        "title": "Zenith",
+        "category": "amazfit-bipmax",
+        "image": "watchface_12.gif",
+        "amazfacesLink": "",
+        "premiumLink": "https://buymeacoffee.com/frankh93/extras",
         "isFree": true,
         "features": [
             "Simple modern design",
