@@ -249,7 +249,7 @@ header {
     text-align: center; 
 }
 
-.card-content h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; } 
+.card-content h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; } 
 
 .compatibility {
     display: flex;
@@ -261,9 +261,9 @@ header {
 
 .compatibility span {
     background-color: #1d1d22;
-    font-size: 0.7rem; 
-    padding: 3px 8px;
-    border-radius: 4px;
+    font-size: 0.8rem; 
+    padding: 4px 8px;
+    border-radius: 8px;
     color: #ddd;
 }
 
