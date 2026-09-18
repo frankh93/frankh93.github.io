@@ -116,32 +116,30 @@ header {
 .btn.paypal:hover { box-shadow: 0 4px 12px rgba(0, 69, 124, 0.3); }
 
 /* Accented Catalog Buttons */
-.btn.catalog-btn { 
-    background-color: rgba(10, 132, 255, 0.1); 
-    border: none; 
-    color: var(--text-main); 
-    width: 260px; 
-    max-width: 100%; 
+.btn.catalog-btn {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    padding: 12px 12px;
+    width: auto;
+    width: 230px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn.catalog-btn i,
-.btn.catalog-btn .icon-watch { 
-    color: var(--accent); 
-    transition: color 0.2s ease; 
-    margin-right: 8px; 
-    font-size: 1rem; 
-    vertical-align: -0.125em; 
+.btn.catalog-btn .icon-watch {
+    color: var(--accent);
+    transition: color 0.2s ease;
+    margin-right: 8px;
+    font-size: 1rem;
+    vertical-align: -0.125em;
 }
 
 .btn.catalog-btn:hover {
-    background-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 6px 15px rgba(10, 132, 255, 0.25);
-}
-
-.btn.catalog-btn:hover i,
-.btn.catalog-btn:hover .icon-watch { 
-    color: #fff; 
+    background-color: #1a1a1e;
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
 /* Catalog Section */
