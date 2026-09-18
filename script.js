@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let animationId;
     let lastTime = 0; 
     
-    const marqueeSpeed = 200; 
+    const marqueeSpeed = 180; 
 
     // --- SHUFFLE & SORT LOGIC ---
     // Standard Fisher-Yates shuffle for arrays
