@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let animationId;
     let lastTime = 0; 
     
-    const marqueeSpeed = 190; 
+    const marqueeSpeed = 200; 
 
     // --- SHUFFLE & SORT LOGIC ---
     // Standard Fisher-Yates shuffle for arrays
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return `
             <div class="wf-card" data-category="${wf.category}">
                 <div class="card-image loading">
-                    <img src="${import.meta.env.BASE_URL}images/${wf.image}" alt="${wf.title}" onload="this.parentElement.classList.remove('loading')">
+                    <img src="${import.meta.env.BASE_URL}images/${wf.image}" alt="${wf.title}" loading="lazy" decoding="async" onload="this.parentElement.classList.remove('loading')">
                     
                     <div class="wf-drawer">
                         <h4><b><u>Features</u></b></h4>
@@ -119,14 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="marquee-group">${itemsHTML}</div>
             <div class="marquee-group">${itemsHTML}</div>
             <div class="marquee-group">${itemsHTML}</div>
-            <div class="marquee-group">${itemsHTML}</div>
-            <div class="marquee-group">${itemsHTML}</div>
-            <div class="marquee-group">${itemsHTML}</div>
         `;
 
         setTimeout(() => {
             updateDimensions();
-            currentX = -(groupWidth * 2);
+            currentX = -groupWidth;
             targetX = currentX;
             startMarquee();
         }, 150);
@@ -160,10 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (groupWidth > 0) {
-                if (currentX <= -(groupWidth * 3)) {
+                if (currentX <= -(groupWidth * 2)) {
                     currentX += groupWidth;
                     targetX += groupWidth;
-                } else if (currentX >= -groupWidth) {
+                } else if (currentX >= 0) {
                     currentX -= groupWidth;
                     targetX -= groupWidth;
                 }
